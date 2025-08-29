@@ -1,5 +1,5 @@
 const monster = {
-   IMAGE: ".monsterTileSheet.png",
+   IMAGE: "monsterTileSheet.png",
    SIZE: 128,
    COLUMNS: 3,
    numberOfFrames: 5,
@@ -70,15 +70,12 @@ const monster = {
    }
 };
 
-const canvas = document.querySelector("canvas");
-const drawingSurface = canvas.getContext("2d");
-
 const ROWS = 3;
 const COLUMNS = 4;
 const SIZE = monster.SIZE;
 const SPACE = 10;
 
-const monsterObject = [];
+const monsterObjects = [];
 const monsterCanvases = [];
 const monsterDrawingSurfaces = [];
 
@@ -97,6 +94,28 @@ function mousedownHandler(event) {
 function loadHandler() {
    buildMap();
    updateAnimation();
+}
+
+function buildMap() {
+   for (let row = 0; row < ROWS; row++) {
+      for (let column = 0; column < COLUMNS; column++) {
+         const newMonsterObject = Object.create(monster);
+         newMonsterObject.findWaitTime();
+         monsterObjects.push(newMonsterObject);
+         
+         const canvas = document.createElement("canvas");
+         canvas.setAttribute("width", SIZE);
+         canvas.setAttribute("height", SIZE);
+         stage.appendChild(canvas);
+         canvas.style.top = row * (SIZE + SPACE) + "px";
+         canvas.style.left = column * (SIZE + SPACE) + "px";
+         canvas.addEventListener("mousedown", mousedownHandler);
+         monsterCanvases.push(canvas);
+         
+         const drawingSurface = canvas.getContext("2d");
+         monsterDrawingSurfaces.push(drawingSurface);
+      }
+   }
 }
 
 function updateAnimation() {
