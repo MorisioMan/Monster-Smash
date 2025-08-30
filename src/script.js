@@ -86,8 +86,15 @@ image.src = "../image/" + monster.IMAGE;
 canvas.addEventListener("mousedown", mousedownHandler);
 
 function mousedownHandler(event) {
-   if (monster.state === monster.JUMPING) {
-      monster.state = monster.HIT;
+   const theCanvasThatWasClicked = event.target;
+
+   for (let i = 0; i < monsterCanvases.length; i++) {
+      if (monsterCanvases[i] === theCanvasThatWasClicked) {
+         const monster = monsterObjects[i];
+         if (monster.state === monster.JUMPING) {
+            monster.state = monster.HIT;
+         }
+      }
    }
 }
 
@@ -120,15 +127,23 @@ function buildMap() {
 
 function updateAnimation() {
    setTimeout(updateAnimation, 120);
-   monster.updateAnimation();
+   for (let i = 0; index < monsterObjects.length; i++) {
+      monsterObjects[i].updateAnimation();
+   }
    render();
 }
 
 function render() {
-   drawingSurface.clearRect(0, 0, canvas.width, canvas.height);
-   drawingSurface.drawImage(
-      image,
-      monster.sourceX, monster.sourceY, monster.SIZE, monster.SIZE,
-      0, 0, monster.SIZE, monster.SIZE
-   );
+   for (i = 0; i < monsterObjects.length; i++) {
+      const monster = monsterObjects[i];
+      const drawingSurface = monsterDrawingSurfaces;
+
+      drawingSurface.clearRect(0, 0, SIZE, SIZE);
+
+      drawingSurface.drawImage(
+         image,
+         monster.sourceX, monster.sourceY, SIZE, SIZE,
+         0, 0, SIZE, SIZE
+      );
+   }
 }
