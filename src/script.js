@@ -83,8 +83,6 @@ const image = new Image();
 image.addEventListener("load", loadHandler);
 image.src = "../image/" + monster.IMAGE;
 
-canvas.addEventListener("mousedown", mousedownHandler);
-
 function mousedownHandler(event) {
    const theCanvasThatWasClicked = event.target;
 
@@ -127,7 +125,7 @@ function buildMap() {
 
 function updateAnimation() {
    setTimeout(updateAnimation, 120);
-   for (let i = 0; index < monsterObjects.length; i++) {
+   for (let i = 0; i < monsterObjects.length; i++) {
       monsterObjects[i].updateAnimation();
    }
    render();
@@ -136,7 +134,7 @@ function updateAnimation() {
 function render() {
    for (i = 0; i < monsterObjects.length; i++) {
       const monster = monsterObjects[i];
-      const drawingSurface = monsterDrawingSurfaces;
+      const drawingSurface = monsterDrawingSurfaces[i];
 
       drawingSurface.clearRect(0, 0, SIZE, SIZE);
 
